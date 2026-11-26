@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'\nimport { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,7 +28,7 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+const AuthenticatedProjectsRoute = AuthenticatedProjectsRouteImport.update({\n  id: '/projects',\n  path: '/projects',\n  getParentRoute: () => AuthenticatedRouteRoute,\n} as any)\nconst AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
@@ -53,10 +53,10 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/profile'
+  fullPaths: '/' | '/auth' | '/profile' | '/projects'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/profile'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/profile'
+  to: '/' | '/auth' | '/profile' | '/projects'
+  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/profile' | '/_authenticated/projects'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -88,7 +88,7 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/profile': {
+    '/_authenticated/projects': {\n      id: '/_authenticated/projects'\n      path: '/projects'\n      fullPath: '/projects'\n      preLoaderRoute: typeof AuthenticatedProjectsRouteImport\n      parentRoute: typeof AuthenticatedRouteRoute\n    }\n    '/_authenticated/profile': {
       id: '/_authenticated/profile'
       path: '/profile'
       fullPath: '/profile'
