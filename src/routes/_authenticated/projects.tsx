@@ -106,6 +106,12 @@ function ProjectsPage() {
     setProjects(current => current.map(p => p.id === updated.id ? updated : p));
   };
 
+  if (selected && !draft && tab === "edit") return <main className="mx-auto min-h-[calc(100vh-3.5rem)] max-w-5xl px-5 py-10 sm:px-8">
+    <button onClick={() => { setSelected(null); setTab("edit"); void loadProjects(); }} className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground"><ArrowLeft className="size-4" /> Voltar aos projetos</button>
+    <div className="mb-7"><p className="text-xs font-bold uppercase tracking-widest text-primary">Projeto selecionado</p><h1 className="mt-2 font-display text-3xl">{selected.project_name}</h1><p className="mt-1 text-muted-foreground">{selected.business_name} · {selected.client_name}</p></div>
+    <section className="rounded-2xl border bg-card p-6"><h2 className="text-xl font-bold">Este projeto ainda não tem cardápio</h2><p className="mt-1 text-sm text-muted-foreground">Escolha um modelo para iniciar a criação. O cadastro do cliente será mantido neste projeto.</p><div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{TEMPLATES.map(t=><button key={t.id} onClick={()=>void chooseTemplate(t.id)} className="rounded-xl border p-4 text-left transition hover:border-primary hover:shadow-sm"><span className="font-semibold">{t.label}</span><span className="mt-1 block text-xs text-muted-foreground">{t.kind}</span></button>)}</div></section>
+  </main>;
+
   if (selected && draft && tab === "edit") return <main className="min-h-screen bg-background">
     <div className="no-print sticky top-14 z-20 flex flex-wrap items-center justify-between gap-3 border-b bg-card px-4 py-3 sm:px-6">
       <button onClick={() => { setSelected(null); setDraft(null); setTab("edit"); void loadProjects(); }} className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"><ArrowLeft className="size-4" /> Voltar aos projetos</button>
