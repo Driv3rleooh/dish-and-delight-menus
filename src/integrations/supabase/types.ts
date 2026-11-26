@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      menu_projects: {
+        Row: {
+          address: string | null
+          business_name: string
+          client_name: string
+          created_at: string
+          email: string | null
+          id: string
+          instagram: string | null
+          menu_data: Json | null
+          niche: string
+          phone: string | null
+          project_description: string | null
+          project_name: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          business_name: string
+          client_name: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          instagram?: string | null
+          menu_data?: Json | null
+          niche: string
+          phone?: string | null
+          project_description?: string | null
+          project_name: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          business_name?: string
+          client_name?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          instagram?: string | null
+          menu_data?: Json | null
+          niche?: string
+          phone?: string | null
+          project_description?: string | null
+          project_name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
