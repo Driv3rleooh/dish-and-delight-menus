@@ -147,10 +147,6 @@ function RootComponent() {
     refreshUser();
     return () => { active = false; subscription.unsubscribe(); };
   }, [router, queryClient]);
-  useEffect(() => {
-    if (user && router.state.location.pathname === "/") void router.navigate({ to: "/profile", replace: true });
-  }, [user, router]);
-
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContext.Provider value={{ user, ready }}>
