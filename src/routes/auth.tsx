@@ -40,7 +40,7 @@ function Auth() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { data, error: failure } = await supabase.auth.signUp({ email: email.trim(), password, options: { data: { name: name.trim() }, emailRedirectTo: window.location.origin } });
+        const { data, error: failure } = await supabase.auth.signUp({ email: email.trim(), password, options: { data: { name: name.trim() }, emailRedirectTo: `${window.location.origin}/profile` } });
         if (failure) { setError(failure.code === "email_address_invalid" ? "Informe um e-mail válido." : failure.code === "user_already_exists" ? "Já existe uma conta com esse e-mail. Entre na sua conta." : "Não foi possível cadastrar. Confira os dados e tente novamente."); return; }
         if (!data.session) setConfirmation(true);
         else await navigate({ to: "/profile", replace: true });
