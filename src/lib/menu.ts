@@ -1,4 +1,4 @@
-export type Item = { id: string; name: string; desc: string; price: string; image?: string };
+export type Item = { id: string; name: string; desc: string; price: string; image?: string | undefined };
 export type Section = { id: string; title: string; items: Item[] };
 export type Menu = { template: string; name: string; tagline: string; footer: string; sections: Section[] };
 
