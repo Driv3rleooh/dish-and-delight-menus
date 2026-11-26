@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Authentication has one root session subscriber and a private profile route under the client-only authenticated layout; this prevents competing session listeners and protects profile rendering.
+- Profile reads and writes use authenticated server functions and owner-scoped RLS; never accept an owner ID from the browser.
+- Register the project bearer middleware in Start's functionMiddleware array; the generated integration currently has no auth-attacher module.

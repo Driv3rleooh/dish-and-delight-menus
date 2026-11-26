@@ -8,7 +8,12 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import type { User } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
+import { AuthContext } from "@/hooks/use-auth";
+import { AccountNav } from "@/components/AccountNav";
+import { Toaster } from "@/components/ui/sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -122,11 +127,38 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let active = true;
+    const refreshUser = () => {
+      void supabase.auth.getUser().then(({ data }) => {
+        if (active) { setUser(data.user); setReady(true); }
+      }).catch(() => { if (active) { setUser(null); setReady(true); } });
+    };
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(event => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      if (event === "SIGNED_OUT") { setUser(null); queryClient.clear(); }
+      else refreshUser();
+      void router.invalidate();
+      if (event !== "SIGNED_OUT") void queryClient.invalidateQueries();
+    });
+    refreshUser();
+    return () => { active = false; subscription.unsubscribe(); };
+  }, [router, queryClient]);
+  useEffect(() => {
+    if (user && router.state.location.pathname === "/") void router.navigate({ to: "/profile", replace: true });
+  }, [user, router]);
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthContext.Provider value={{ user, ready }}>
+      <AccountNav />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Toaster />
+      </AuthContext.Provider>
     </QueryClientProvider>
   );
 }

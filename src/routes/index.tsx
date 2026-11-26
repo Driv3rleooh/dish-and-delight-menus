@@ -9,6 +9,8 @@ export const Route = createFileRoute("/")({
     { name: "description", content: "Escolha um modelo, edite pratos, preços, descrições e fotos, e imprima seu cardápio." },
     { property: "og:title", content: "Cardápio Fácil — crie seu cardápio em minutos" },
     { property: "og:description", content: "Escolha um modelo, edite pratos, preços, descrições e fotos, e imprima seu cardápio." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
   ] }),
   component: Index,
 });
