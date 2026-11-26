@@ -1,9 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { MenuEditor } from "@/components/MenuEditor";
 import { TEMPLATES, type Menu } from "@/lib/menu";
 
 export const Route = createFileRoute("/")({
+  ssr: false,
+  beforeLoad: async () => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) throw redirect({ to: "/auth" });
+  },
   head: () => ({ meta: [
     { title: "Cardápio Fácil — crie seu cardápio em minutos" },
     { name: "description", content: "Escolha um modelo, edite pratos, preços, descrições e fotos, e imprima seu cardápio." },
