@@ -1,6 +1,6 @@
 export type Item = { id: string; name: string; desc: string; price: string; image?: string | undefined };
 export type Section = { id: string; title: string; items: Item[] };
-export type CanvasElement = { id: string; type: "text" | "image"; content: string; x: number; y: number; width: number; height: number; fontSize?: number; color?: string; bold?: boolean };
+export type CanvasElement = { id: string; type: "text" | "image"; content: string; x: number; y: number; width: number; height: number; fontSize?: number; color?: string; bold?: boolean; fontFamily?: string };
 export type Menu = { template: string; name: string; tagline: string; footer: string; sections: Section[]; canvasElements?: CanvasElement[] };
 
 export const uid = () => Math.random().toString(36).slice(2, 10);
