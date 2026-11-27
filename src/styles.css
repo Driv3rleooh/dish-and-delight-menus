@@ -97,3 +97,14 @@
   * { border-color: var(--color-border); }
   body { background-color: var(--color-background); color: var(--color-foreground); font-family: var(--font-sans); }
 }
+
+/* Wave beach realism: fine sand grain, layered translucent surf and foam */
+.ocean-backdrop { background: linear-gradient(180deg,#c9f0ed 0%,#8bd8d9 24%,#37aebd 45%,#087b9a 72%,#063b60 100%); }
+.ocean-sky { background: radial-gradient(ellipse at 74% 18%,rgba(255,255,232,.78),transparent 25%),linear-gradient(180deg,#e2f8f2,#8bd8dc 76%,#55b8c6); }
+.ocean-horizon { background: radial-gradient(ellipse,rgba(239,255,248,.88) 0%,rgba(133,224,224,.58) 32%,transparent 72%); filter:blur(22px); }
+.ocean-water-back { background: repeating-linear-gradient(176deg,rgba(224,255,246,.13) 0 2px,transparent 2px 19px),linear-gradient(180deg,#52c5c8 0%,#168ca7 44%,#075477 100%); box-shadow:inset 0 16px 35px rgba(226,255,247,.18); }
+.ocean-water-front { background:repeating-linear-gradient(4deg,rgba(222,255,247,.12) 0 1px,transparent 1px 13px),linear-gradient(180deg,#9be8dc 0%,#39b9bc 23%,#087b99 74%,#075173 100%); filter:saturate(1.12); }
+.ocean-foam { height:19%; border-top:18px solid rgba(247,255,247,.9); border-radius:48% 52% 0 0/30% 35% 0 0; filter:blur(5px); box-shadow:0 -8px 18px rgba(240,255,250,.32),0 -20px 38px rgba(222,255,247,.2); }
+.ocean-shore { background-color:#ddc99d; background-image:radial-gradient(ellipse at 22% 30%,rgba(255,255,255,.42) 0 1px,transparent 2px),radial-gradient(ellipse at 76% 58%,rgba(125,99,59,.17) 0 1px,transparent 2px),radial-gradient(ellipse at 44% 78%,rgba(255,255,255,.3) 0 1px,transparent 2px),repeating-linear-gradient(168deg,rgba(135,110,72,.045) 0 1px,transparent 1px 7px),linear-gradient(180deg,#f0e4c4 0%,#d9c49a 58%,#c5ad7d 100%); background-size:23px 19px,31px 27px,17px 23px,100% 100%,100% 100%; box-shadow:0 -20px 45px rgba(239,255,245,.25); }
+.ocean-shore::before { content:"";position:absolute;inset:0;opacity:.18;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");mix-blend-mode:multiply;pointer-events:none; }
+@media (prefers-reduced-motion: reduce) { .ocean-water-back,.ocean-water-front,.ocean-foam { animation:none !important; } }
