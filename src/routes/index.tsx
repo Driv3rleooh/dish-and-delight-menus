@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
     throw redirect({ to: "/projects" });
   },
   head: () => ({ meta: [
-    { title: "Cardápio Fácil — projetos e cardápios" },
+    { title: "Wave — projetos e cardápios" },
     { name: "description", content: "Cadastre clientes e gerencie seus projetos de cardápio." },
   ] }),
   component: () => null,
