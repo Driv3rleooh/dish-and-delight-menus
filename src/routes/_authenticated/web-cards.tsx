@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
-import { Plus, Store, Pencil, ExternalLink, Copy, Trash2, ImagePlus, Eye, EyeOff, QrCode, Palette, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Store, Pencil, ExternalLink, Copy, Trash2, ImagePlus, Eye, EyeOff, QrCode, Palette, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { DEFAULT_WEB_OPTIONS, makeSlug, type WebCard, type WebCardOption } from "@/lib/web-card";
 
 type Project = { id: string; project_name: string; client_name: string; business_name: string; niche: string; phone: string | null; email: string | null; instagram: string | null; address: string | null; project_description: string | null; user_id: string };
 const blankProject = { project_name: "", client_name: "", business_name: "", niche: "Restaurante", phone: "", email: "", instagram: "", address: "", project_description: "" };
-const blankStyle = { tagline: "", cover_image: null as string | null, logo_image: null as string | null, background_color: "#111111", surface_color: "#1b1b1b", button_color: "#c18a3d", text_color: "#ffffff", muted_text_color: "#b7b7b7", button_style: "rounded" as const, font_family: "Inter, sans-serif" };
+type StyleForm = { tagline: string; cover_image: string | null; logo_image: string | null; background_color: string; surface_color: string; button_color: string; text_color: string; muted_text_color: string; button_style: "rounded" | "pill" | "square"; font_family: string };
+const blankStyle: StyleForm = { tagline: "", cover_image: null as string | null, logo_image: null as string | null, background_color: "#111111", surface_color: "#1b1b1b", button_color: "#c18a3d", text_color: "#ffffff", muted_text_color: "#b7b7b7", button_style: "rounded" as const, font_family: "Inter, sans-serif" };
 
 export const Route = createFileRoute("/_authenticated/web-cards")({ ssr: false, head: () => ({ meta: [{ title: "Web Cartões — Wave" }] }), component: WebCardsPage });
 
@@ -17,7 +18,7 @@ function WebCardsPage() {
   const [selected, setSelected] = useState<WebCard | null>(null);
   const [projectForm, setProjectForm] = useState(blankProject);
   const [projectChoice, setProjectChoice] = useState("new");
-  const [form, setForm] = useState(blankStyle);
+  const [form, setForm] = useState<StyleForm>(blankStyle);
   const [options, setOptions] = useState<WebCardOption[]>(DEFAULT_WEB_OPTIONS);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
