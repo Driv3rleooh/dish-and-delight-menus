@@ -12,18 +12,24 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
+import { Route as AuthenticatedWebCardsRouteImport } from './routes/_authenticated/web-cards'
+import { Route as PublicWebCardRouteImport } from './routes/c.$slug'
 
 const IndexRoute = IndexRouteImport.update({ id: '/', path: '/', getParentRoute: () => rootRouteImport } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({ id: '/_authenticated', getParentRoute: () => rootRouteImport } as any)
 const AuthRoute = AuthRouteImport.update({ id: '/auth', path: '/auth', getParentRoute: () => rootRouteImport } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({ id: '/profile', path: '/profile', getParentRoute: () => AuthenticatedRouteRoute } as any)
 const AuthenticatedProjectsRoute = AuthenticatedProjectsRouteImport.update({ id: '/projects', path: '/projects', getParentRoute: () => AuthenticatedRouteRoute } as any)
+const AuthenticatedWebCardsRoute = AuthenticatedWebCardsRouteImport.update({ id: '/web-cards', path: '/web-cards', getParentRoute: () => AuthenticatedRouteRoute } as any)
+const PublicWebCardRoute = PublicWebCardRouteImport.update({ id: '/c/$slug', path: '/c/$slug', getParentRoute: () => rootRouteImport } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/projects': typeof AuthenticatedProjectsRoute
+  '/web-cards': typeof AuthenticatedWebCardsRoute
+  '/c/$slug': typeof PublicWebCardRoute
 }
 export interface FileRoutesByTo extends FileRoutesByFullPath {}
 export interface FileRoutesById {
@@ -33,13 +39,15 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/projects': typeof AuthenticatedProjectsRoute
+  '/_authenticated/web-cards': typeof AuthenticatedWebCardsRoute
+  '/c/$slug': typeof PublicWebCardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/profile' | '/projects'
+  fullPaths: '/' | '/auth' | '/profile' | '/projects' | '/web-cards' | '/c/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/profile' | '/projects'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/profile' | '/_authenticated/projects'
+  to: '/' | '/auth' | '/profile' | '/projects' | '/web-cards' | '/c/$slug'
+  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/profile' | '/_authenticated/projects' | '/_authenticated/web-cards' | '/c/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -54,21 +62,26 @@ declare module '@tanstack/react-router' {
     '/auth': { id: '/auth'; path: '/auth'; fullPath: '/auth'; preLoaderRoute: typeof AuthRouteImport; parentRoute: typeof rootRouteImport }
     '/_authenticated/profile': { id: '/_authenticated/profile'; path: '/profile'; fullPath: '/profile'; preLoaderRoute: typeof AuthenticatedProfileRouteImport; parentRoute: typeof AuthenticatedRouteRoute }
     '/_authenticated/projects': { id: '/_authenticated/projects'; path: '/projects'; fullPath: '/projects'; preLoaderRoute: typeof AuthenticatedProjectsRouteImport; parentRoute: typeof AuthenticatedRouteRoute }
+    '/_authenticated/web-cards': { id: '/_authenticated/web-cards'; path: '/web-cards'; fullPath: '/web-cards'; preLoaderRoute: typeof AuthenticatedWebCardsRouteImport; parentRoute: typeof AuthenticatedRouteRoute }
+    '/c/$slug': { id: '/c/$slug'; path: '/c/$slug'; fullPath: '/c/$slug'; preLoaderRoute: typeof PublicWebCardRouteImport; parentRoute: typeof rootRouteImport }
   }
 }
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
+  AuthenticatedWebCardsRoute: typeof AuthenticatedWebCardsRoute
 }
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProfileRoute,
   AuthenticatedProjectsRoute,
+  AuthenticatedWebCardsRoute,
 }
 const AuthenticatedRouteRouteWithChildren = AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute,
+  PublicWebCardRoute,
 }
 export const routeTree = rootRouteImport._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()
 import type { getRouter } from './router.tsx'
