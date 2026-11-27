@@ -54,6 +54,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  PublicWebCardRoute: typeof PublicWebCardRoute
 }
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
