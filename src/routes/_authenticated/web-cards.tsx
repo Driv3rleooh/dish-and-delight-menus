@@ -80,7 +80,7 @@ function WebCardsPage() {
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>, field: "cover_image" | "logo_image", optionId?: string) => {
     const file = event.target.files?.[0]; event.target.value = "";
     if (!file || !selected) return;
-    if (!file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) { toast.error("Escolha uma imagem de até 5 MB."); return; }
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 5 * 1024 * 1024) { toast.error("Escolha uma imagem JPG, PNG ou WebP de até 5 MB."); return; }
     const { data: auth } = await supabase.auth.getUser(); if (!auth.user) return;
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
     const path = `${auth.user.id}/${selected.id}/${crypto.randomUUID()}.${ext}`;
