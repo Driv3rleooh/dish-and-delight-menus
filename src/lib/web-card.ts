@@ -40,5 +40,5 @@ export const DEFAULT_WEB_OPTIONS: WebCardOption[] = [
 ];
 export const makeSlug = (name: string) => {
   const base = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 42) || "estabelecimento";
-  return base + "-" + Math.random().toString(36).slice(2, 6);
+  return base + "-" + Math.random().toString(36).slice(2, 8);
 };
