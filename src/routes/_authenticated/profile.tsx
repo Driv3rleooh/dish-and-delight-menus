@@ -11,10 +11,10 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({ meta: [
-    { title: "Meu perfil — Cardápio Fácil" },
-    { name: "description", content: "Gerencie seu nome e sua conta no Cardápio Fácil." },
-    { property: "og:title", content: "Meu perfil — Cardápio Fácil" },
-    { property: "og:description", content: "Sua conta pessoal no Cardápio Fácil." },
+    { title: "Meu perfil — Wave" },
+    { name: "description", content: "Gerencie seu nome e sua conta no Wave." },
+    { property: "og:title", content: "Meu perfil — Wave" },
+    { property: "og:description", content: "Sua conta pessoal no Wave." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
   ] }),
