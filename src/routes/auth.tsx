@@ -9,10 +9,10 @@ import { signupSchema } from "@/lib/auth-validation";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [
-    { title: "Entrar ou cadastrar — Cardápio Fácil" },
-    { name: "description", content: "Crie sua conta com nome e e-mail ou entre com Google no Cardápio Fácil." },
-    { property: "og:title", content: "Entrar ou cadastrar — Cardápio Fácil" },
-    { property: "og:description", content: "Acesse seu perfil pessoal no Cardápio Fácil." },
+    { title: "Entrar ou cadastrar — Wave" },
+    { name: "description", content: "Crie sua conta com nome e e-mail ou entre com Google no Wave." },
+    { property: "og:title", content: "Entrar ou cadastrar — Wave" },
+    { property: "og:description", content: "Acesse seu perfil pessoal no Wave." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary" },
   ] }),
@@ -61,7 +61,7 @@ function Auth() {
     finally { setBusy(false); }
   };
   return <main className="mx-auto max-w-md px-6 py-10 sm:py-14">
-    <h1 className="font-display text-3xl">Sua conta no Cardápio Fácil</h1>
+    <h1 className="font-display text-3xl">Sua conta no Wave</h1>
     {confirmation ? <div className="mt-8 space-y-4"><Mail className="size-9 text-primary" /><h2 className="text-xl font-semibold">Confirme seu e-mail</h2><p className="break-words text-muted-foreground">Enviamos uma confirmação para {email}. Abra o link recebido para acessar seu perfil.</p><Button variant="outline" onClick={() => { setConfirmation(false); setMode("login"); }}>Voltar para entrar</Button></div> : <>
       <Tabs value={mode} onValueChange={value => { setMode(value); setError(""); }} className="mt-7"><TabsList className="grid w-full grid-cols-2"><TabsTrigger value="login">Entrar</TabsTrigger><TabsTrigger value="signup">Cadastrar</TabsTrigger></TabsList></Tabs>
       <form onSubmit={submit} className="mt-6 space-y-4">
