@@ -68,6 +68,12 @@ export type Database = {
         }
         Relationships: []
       }
+      web_cards: {
+        Row: { id:string; project_id:string; user_id:string; slug:string; business_name:string; tagline:string; cover_image:string|null; logo_image:string|null; background_color:string; surface_color:string; button_color:string; text_color:string; muted_text_color:string; button_style:string; font_family:string; options:Json; status:string; created_at:string; updated_at:string };
+        Insert: { id?:string; project_id:string; user_id:string; slug:string; business_name:string; tagline?:string; cover_image?:string|null; logo_image?:string|null; background_color?:string; surface_color?:string; button_color?:string; text_color?:string; muted_text_color?:string; button_style?:string; font_family?:string; options?:Json; status?:string; created_at?:string; updated_at?:string };
+        Update: { id?:string; project_id?:string; user_id?:string; slug?:string; business_name?:string; tagline?:string; cover_image?:string|null; logo_image?:string|null; background_color?:string; surface_color?:string; button_color?:string; text_color?:string; muted_text_color?:string; button_style?:string; font_family?:string; options?:Json; status?:string; created_at?:string; updated_at?:string };
+        Relationships: [];
+      }
       profiles: {
         Row: {
           created_at: string
