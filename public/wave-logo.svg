@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200">
+<defs><linearGradient id="wave" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#27cbb5"/><stop offset=".48" stop-color="#258fd0"/><stop offset="1" stop-color="#4937e8"/></linearGradient></defs>
+<g fill="none" stroke="url(#wave)" stroke-linecap="round" stroke-linejoin="round">
+<path stroke-width="78" d="M1115 1060H600C300 1060 65 825 65 525S300 0 600 0c235 0 430 155 495 365-110-100-270-145-410-95-140 50-230 180-230 325 0 180 145 325 325 325h335"/>
+<path stroke-width="78" d="M1115 795H785c-115 0-205-90-205-200s90-200 205-200c85 0 155 50 185 120"/>
+</g></svg>
