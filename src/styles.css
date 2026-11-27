@@ -62,6 +62,21 @@
   --ring: oklch(0.58 0.17 38);
 }
 
+.ocean-experience { position: relative; isolation: isolate; min-height: 100vh; }
+.ocean-backdrop { position: fixed; inset: 3.5rem 0 0; z-index: -1; overflow: hidden; pointer-events: none; background: linear-gradient(180deg, #b8e9f0 0%, #62c5d4 35%, #087f9e 72%, #063b63 100%); }
+.ocean-sky { position: absolute; inset: 0 0 48%; background: linear-gradient(180deg, #d7f5f4, #7ed5df 72%, #5abacb); opacity: calc(1 - var(--ocean-progress, 0) * .56); transition: opacity .15s linear; }
+.ocean-horizon { position: absolute; top: 43%; left: -10%; width: 120%; height: 20%; border-radius: 50%; background: radial-gradient(ellipse, #e7ffff 0%, #8de1e4 28%, transparent 70%); filter: blur(18px); opacity: .48; }
+.ocean-water { position: absolute; left: -12%; width: 124%; border-radius: 48% 52% 0 0 / 18% 22% 0 0; transform: translate3d(0, calc(var(--ocean-progress, 0) * -7vh), 0); }
+.ocean-water-back { top: calc(48% - var(--ocean-progress, 0) * 8%); height: 62%; background: linear-gradient(180deg, #36b9c5, #087f9e 55%, #06476d); animation: ocean-swell 11s ease-in-out infinite alternate; }
+.ocean-water-front { top: calc(62% - var(--ocean-progress, 0) * 12%); height: 58%; background: linear-gradient(180deg, #8be5df 0%, #20a9b6 22%, #05658a 78%); opacity: .82; animation: ocean-swell 8s ease-in-out infinite alternate-reverse; }
+.ocean-foam { position: absolute; left: -15%; top: calc(61% - var(--ocean-progress, 0) * 15%); width: 130%; height: 16%; border-radius: 50%; border-top: 14px solid rgba(239,255,250,.82); filter: blur(7px); transform: rotate(-2deg); animation: foam-drift 7s ease-in-out infinite alternate; }
+.ocean-shore { position: absolute; bottom: -15%; left: -10%; width: 120%; height: 43%; border-radius: 50% 50% 0 0 / 12% 12% 0 0; background: linear-gradient(180deg, #e9dfc4, #d8c69e 60%, #bca77e); box-shadow: 0 -18px 45px rgba(240,255,247,.22); transform: translateY(calc(var(--ocean-progress, 0) * 18vh)); }
+.ocean-content { position: relative; z-index: 1; min-height: 100vh; }
+@keyframes ocean-swell { from { transform: translate3d(-2%, 0, 0) scaleY(.98); } to { transform: translate3d(2%, -2vh, 0) scaleY(1.04); } }
+@keyframes foam-drift { from { margin-left: -2%; opacity: .55; } to { margin-left: 2%; opacity: .95; } }
+@media (prefers-reduced-motion: reduce) { .ocean-water, .ocean-foam { animation: none !important; } }
+@media (max-width: 640px) { .ocean-backdrop { opacity: .72; } .ocean-shore { height: 32%; } }
+
 /* Menu templates */
 .tpl-bistro { --menu-bg: oklch(0.96 0.02 85); --menu-fg: oklch(0.2 0.02 40); --menu-accent: oklch(0.45 0.12 25); --menu-muted: oklch(0.5 0.03 50); --menu-card: oklch(0.98 0.01 85); --menu-title-font: "Fraunces", serif; --menu-body-font: "Manrope", sans-serif; }
 .tpl-cafe { --menu-bg: oklch(0.9 0.04 70); --menu-fg: oklch(0.28 0.05 50); --menu-accent: oklch(0.42 0.08 50); --menu-muted: oklch(0.45 0.04 55); --menu-card: oklch(0.94 0.03 75); --menu-title-font: "Caveat", cursive; --menu-body-font: "Manrope", sans-serif; }
