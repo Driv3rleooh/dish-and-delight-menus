@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
-import { Plus, Store, Pencil, ExternalLink, Copy, Trash2, ImagePlus, Eye, EyeOff, Link2, Check, QrCode, Palette, ChevronDown, ChevronUp } from "lucide-react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { Plus, Store, Pencil, ExternalLink, Copy, Trash2, ImagePlus, Eye, EyeOff, QrCode, Palette, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { DEFAULT_WEB_OPTIONS, makeSlug, type WebCard, type WebCardOption } from "@/lib/web-card";
@@ -36,9 +36,8 @@ function WebCardsPage() {
   useEffect(() => { void load(); }, []);
 
   const publicUrl = (card: WebCard) => `${window.location.origin}/c/${card.slug}`;
-  const slugPreview = useMemo(() => makeSlug(projectForm.business_name || "estabelecimento").replace(/-[a-z0-9]{4}$/, "-xxxx"), [projectForm.business_name]);
 
-  const createCard = async (event: React.FormEvent) => {
+  const createCard = async (event: FormEvent) => {
     event.preventDefault(); setBusy(true);
     try {
       const { data: auth } = await supabase.auth.getUser();
