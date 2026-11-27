@@ -17,7 +17,7 @@ const initialForm = { project_name: "", client_name: "", business_name: "", nich
 
 export const Route = createFileRoute("/_authenticated/projects")({
   ssr: false,
-  head: () => ({ meta: [{ title: "Projetos e cardápios — Cardápio Fácil" }, { name: "description", content: "Cadastre clientes e gerencie seus projetos de cardápio." }] }),
+  head: () => ({ meta: [{ title: "Projetos e cardápios — Wave" }, { name: "description", content: "Cadastre clientes e gerencie seus projetos de cardápio." }] }),
   component: ProjectsPage,
 });
 
