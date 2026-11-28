@@ -7,11 +7,12 @@ import { MenuEditor } from "@/components/MenuEditor";
 import { TEMPLATES, type Menu } from "@/lib/menu";
 
 type Project = {
-  id: string; user_id: string; project_name: string; client_name: string;
+  id: string; user_id: string; client_id: string | null; project_name: string; client_name: string;
   business_name: string; niche: string; phone: string | null; email: string | null;
   instagram: string | null; address: string | null; project_description: string | null;
   status: string; menu_data: Menu | null; created_at: string; updated_at: string;
 };
+type ClientOption = { id: string; name: string; phone: string | null; business_name: string; email: string | null };
 type Tab = "create" | "edit" | "consult";
 const initialForm = { project_name: "", client_name: "", business_name: "", niche: "", phone: "", email: "", instagram: "", address: "", project_description: "" };
 
@@ -24,6 +25,8 @@ export const Route = createFileRoute("/_authenticated/projects")({
 function ProjectsPage() {
   const [tab, setTab] = useState<Tab>("create");
   const [projects, setProjects] = useState<Project[]>([]);
+  const [clients, setClients] = useState<ClientOption[]>([]);
+  const [clientId, setClientId] = useState("");
   const [form, setForm] = useState(initialForm);
   const [selected, setSelected] = useState<Project | null>(null);
   const [draft, setDraft] = useState<Menu | null>(null);
@@ -33,16 +36,16 @@ function ProjectsPage() {
   const [newProjectId, setNewProjectId] = useState<string | null>(null);
 
   const loadProjects = async () => {
-    const { data, error } = await supabase.from("menu_projects").select("*").order("updated_at", { ascending: false });
+    const [{ data, error }, { data: clientRows }] = await Promise.all([supabase.from("menu_projects").select("*").order("updated_at", { ascending: false }), supabase.from("clients").select("id,name,phone,business_name,email").order("name")]);
     if (error) { toast.error("Não foi possível carregar os projetos."); return; }
-    setProjects((data ?? []) as Project[]);
+    setProjects((data ?? []) as Project[]); setClients((clientRows ?? []) as ClientOption[]);
   };
   useEffect(() => {
     let active = true;
-    void supabase.from("menu_projects").select("*").order("updated_at", { ascending: false }).then(({ data, error }) => {
+    void Promise.all([supabase.from("menu_projects").select("*").order("updated_at", { ascending: false }), supabase.from("clients").select("id,name,phone,business_name,email").order("name")]).then(([{ data, error }, { data: clientRows }]) => {
       if (!active) return;
       if (error) toast.error("Não foi possível carregar os projetos.");
-      else setProjects((data ?? []) as Project[]);
+      else { const rows=(data ?? []) as Project[]; setProjects(rows); setClients((clientRows ?? []) as ClientOption[]); const target=new URLSearchParams(window.location.search).get("project"); const match=target?rows.find(p=>p.id===target):null; if(match){setSelected(match);setDraft(match.menu_data?structuredClone(match.menu_data):null);setTab("edit");} }
       setLoading(false);
     });
     return () => { active = false; };
@@ -61,7 +64,7 @@ function ProjectsPage() {
       const { data: auth } = await supabase.auth.getUser();
       if (!auth.user) throw new Error("Sessão expirada. Entre novamente.");
       const { data, error } = await supabase.from("menu_projects").insert({
-        ...form, user_id: auth.user.id, phone: form.phone || null, email: form.email || null,
+        ...form, user_id: auth.user.id, client_id: clientId || null, phone: form.phone || null, email: form.email || null,
         instagram: form.instagram || null, address: form.address || null,
         project_description: form.project_description || null,
       }).select("*").single();
@@ -132,7 +135,7 @@ function ProjectsPage() {
     {tab === "create" && <section className="rounded-2xl border bg-card p-5 shadow-sm sm:p-8">
       <div className="mb-7 flex items-start gap-3"><div className="rounded-xl bg-primary/10 p-3 text-primary"><BriefcaseBusiness className="size-6" /></div><div><h2 className="text-xl font-bold">Cadastro prévio do projeto</h2><p className="mt-1 text-sm text-muted-foreground">Essas informações identificam o cliente e ficam vinculadas a todos os cardápios deste projeto.</p></div></div>
       <form onSubmit={createProject} className="space-y-6">
-        <div><h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-primary">Identificação do projeto e cliente</h3><div className="grid gap-4 sm:grid-cols-2">
+        <div><h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-primary">Identificação do projeto e cliente</h3><div className="mb-4"><label className="mb-2 block text-sm font-medium">Vincular a um cliente cadastrado (opcional)</label><select value={clientId} onChange={e=>{const id=e.target.value;setClientId(id);const client=clients.find(x=>x.id===id);if(client)setForm(current=>({...current,client_name:client.name,business_name:client.business_name,phone:client.phone||"",email:client.email||""}));}} className="h-11 w-full rounded-md border bg-background px-3"><option value="">Sem vínculo / cadastrar dados abaixo</option>{clients.map(client=><option key={client.id} value={client.id}>{client.name} — {client.business_name}</option>)}</select></div><div className="grid gap-4 sm:grid-cols-2">
           <Field label="Nome do projeto *" value={form.project_name} onChange={v=>setForm({...form,project_name:v})} placeholder="Ex.: Cardápio de verão 2026" required />
           <Field label="Nome do cliente / responsável *" value={form.client_name} onChange={v=>setForm({...form,client_name:v})} placeholder="Nome completo" required />
           <Field label="Nome do estabelecimento *" value={form.business_name} onChange={v=>setForm({...form,business_name:v})} placeholder="Nome comercial" required />
@@ -144,7 +147,7 @@ function ProjectsPage() {
           <Field label="Instagram" value={form.instagram} onChange={v=>setForm({...form,instagram:v})} placeholder="@seuestabelecimento" />
           <Field label="Endereço" value={form.address} onChange={v=>setForm({...form,address:v})} placeholder="Rua, número, cidade - UF" />
         </div></div>
-        <div><label className="mb-2 block text-sm font-medium" htmlFor="project-description">Descrição e briefing do projeto</label><textarea id="project-description" rows={4} maxLength={3000} value={form.project_description} onChange={e=>setForm({...form,project_description:e.target.value})} placeholder="Conte sobre o negócio, público-alvo, identidade visual, objetivos do cardápio, referências, necessidades especiais e observações importantes…" className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring" /><p className="mt-1 text-right text-xs text-muted-foreground">{form.project_description.length}/3000</p></div>
+        <div><label className="mb-2 block text-sm font-medium" htmlFor="project-description">Breve descrição do projeto</label><textarea id="project-description" rows={4} maxLength={3000} value={form.project_description} onChange={e=>setForm({...form,project_description:e.target.value})} placeholder="Conte sobre o negócio, público-alvo, identidade visual, objetivos do cardápio, referências, necessidades especiais e observações importantes…" className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring" /><p className="mt-1 text-right text-xs text-muted-foreground">{form.project_description.length}/3000</p></div>
         <div className="flex flex-col justify-between gap-3 border-t pt-5 sm:flex-row sm:items-center"><p className="text-xs text-muted-foreground">* Campos obrigatórios. O cardápio será criado na próxima etapa, após salvar o cadastro.</p><button disabled={busy} className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-primary px-5 text-sm font-semibold text-primary-foreground disabled:opacity-50"><Plus className="size-4" />{busy ? "Criando projeto…" : "Salvar cadastro e escolher modelo"}</button></div>
       </form>
       {newProjectId && selected?.id===newProjectId && <div className="mt-6 rounded-xl border border-primary/30 bg-primary/5 p-4"><h3 className="font-semibold">Cadastro concluído. Escolha um modelo para começar:</h3><div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{TEMPLATES.map(t=><button key={t.id} onClick={()=>void chooseTemplate(t.id)} className="rounded-lg border bg-card p-4 text-left transition hover:border-primary hover:shadow-sm"><span className="font-semibold">{t.label}</span><span className="mt-1 block text-xs text-muted-foreground">{t.kind}</span></button>)}</div></div>}
