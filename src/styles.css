@@ -134,3 +134,91 @@
 @media (prefers-reduced-motion: reduce) {
   .wave-route-loader, .wave-route-loader img { animation: none !important; }
 }
+
+
+/* Photographic shoreline and natural wave motion */
+.ocean-backdrop {
+  background-color: #087f91;
+  background-image:
+    linear-gradient(180deg, rgba(7, 44, 58, .04) 0%, rgba(4, 42, 54, .08) 58%, rgba(3, 35, 42, .12) 100%),
+    url("https://images.unsplash.com/photo-1761427299513-fa82374893b1?auto=format&fit=crop&fm=jpg&ixid=NHwxMjA3fDA%3D&ixlib=rb-4.1.0&q=60&w=3000");
+  background-size: cover;
+  background-position: center 56%;
+  background-repeat: no-repeat;
+  isolation: isolate;
+}
+.ocean-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 72% 16%, rgba(255, 249, 219, .2), transparent 30%),
+    linear-gradient(115deg, transparent 34%, rgba(255,255,255,.07) 48%, transparent 62%);
+  background-size: 100% 100%, 220% 100%;
+  background-position: center, 180% 0;
+  animation: ocean-sun-glimmer 18s ease-in-out infinite alternate;
+}
+.ocean-sky, .ocean-horizon, .ocean-water, .ocean-shore { display: none; }
+.ocean-foam {
+  position: absolute;
+  z-index: 1;
+  left: -18%;
+  top: 47%;
+  width: 136%;
+  height: 34%;
+  border: 0;
+  border-radius: 48% 52% 0 0 / 12% 16% 0 0;
+  background: linear-gradient(180deg, rgba(239,255,251,.16), rgba(207,250,244,.13) 14%, rgba(255,255,255,.04) 35%, transparent 68%);
+  filter: drop-shadow(0 -5px 12px rgba(246,255,251,.24));
+  transform: translate3d(-1%,0,0) scaleY(.94);
+  animation: ocean-wave-runup 10s cubic-bezier(.42,0,.58,1) infinite;
+}
+.ocean-foam::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 34px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 8% 55%, rgba(255,255,255,.95) 0 3px, transparent 8px),
+    radial-gradient(ellipse at 24% 42%, rgba(245,255,251,.9) 0 4px, transparent 11px),
+    radial-gradient(ellipse at 41% 58%, rgba(255,255,255,.92) 0 3px, transparent 9px),
+    radial-gradient(ellipse at 59% 40%, rgba(246,255,251,.9) 0 4px, transparent 10px),
+    radial-gradient(ellipse at 77% 56%, rgba(255,255,255,.92) 0 3px, transparent 9px),
+    radial-gradient(ellipse at 94% 43%, rgba(245,255,251,.9) 0 4px, transparent 10px);
+  background-size: 180px 34px, 210px 34px, 170px 34px, 200px 34px, 190px 34px, 160px 34px;
+  filter: blur(2px);
+  opacity: .9;
+}
+.ocean-foam::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  top: 12px;
+  width: 104%;
+  height: 40px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.42) 0 2px, transparent 3px 13px);
+  filter: blur(5px);
+  opacity: .75;
+}
+@keyframes ocean-wave-runup {
+  0%, 100% { top: 47%; transform: translate3d(-1.5%,0,0) scaleY(.92); opacity: .78; }
+  34% { top: 55%; transform: translate3d(1%, -1vh,0) scaleY(1.12); opacity: 1; }
+  52% { top: 59%; transform: translate3d(2%, -1.5vh,0) scaleY(1.18); opacity: .96; }
+  78% { top: 51%; transform: translate3d(-1%,0,0) scaleY(1); opacity: .86; }
+}
+@keyframes ocean-sun-glimmer {
+  from { background-position: center, 180% 0; opacity: .55; }
+  to { background-position: center, -30% 0; opacity: .9; }
+}
+@media (max-width: 640px) {
+  .ocean-backdrop { opacity: .94; background-position: center 54%; }
+  .ocean-foam { height: 38%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ocean-backdrop::before, .ocean-foam { animation: none !important; }
+}
