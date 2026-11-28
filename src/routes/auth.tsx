@@ -47,7 +47,7 @@ function Auth() {
       } else {
         const { error: failure } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         if (failure) { setError(failure.code === "email_not_confirmed" ? "Confirme seu e-mail antes de entrar." : failure.code === "invalid_credentials" ? "E-mail ou senha incorretos." : "Não foi possível entrar. Tente novamente."); return; }
-        await navigate({ to: "/profile", replace: true });
+        await navigate({ to: "/", replace: true });
       }
     } catch { setError("Não foi possível conectar. Tente novamente."); }
     finally { setBusy(false); }
