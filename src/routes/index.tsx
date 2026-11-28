@@ -63,7 +63,10 @@ function DashboardPage() {
             <Link to="/projects" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-cyan-700">
               <BriefcaseBusiness className="size-4 shrink-0" /> Projetos
             </Link>
-            <Link to="/clients" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-blue-700">\n              <Users className="size-4 shrink-0" /> Clientes\n            </Link>\n            <Link to="/web-cards" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-violet-700">
+            <Link to="/clients" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-blue-700">
+              <Users className="size-4 shrink-0" /> Clientes
+            </Link>
+            <Link to="/web-cards" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-violet-700">
               <QrCode className="size-4 shrink-0" /> Web Cartões
             </Link>
             <Link to="/profile" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-blue-700">
