@@ -45,7 +45,12 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 function RootComponent() {
   const { queryClient } = Route.useRouteContext(); const router = useRouter(); const location = useLocation();
-  const [user, setUser] = useState<User | null>(null); const [ready, setReady] = useState(false);
+  const [user, setUser] = useState<User | null>(null); const [ready, setReady] = useState(false); const [routeLoading, setRouteLoading] = useState(true);
+  useEffect(() => {
+    setRouteLoading(true);
+    const hideTimer = window.setTimeout(() => setRouteLoading(false), 520);
+    return () => window.clearTimeout(hideTimer);
+  }, [location.pathname]);
   useEffect(() => {
     let active = true;
     const refreshUser = () => { void supabase.auth.getUser().then(({ data }) => { if (active) { setUser(data.user); setReady(true); } }).catch(() => { if (active) { setUser(null); setReady(true); } }); };
@@ -56,5 +61,5 @@ function RootComponent() {
     });
     refreshUser(); return () => { active = false; subscription.unsubscribe(); };
   }, [router, queryClient]);
-  return <QueryClientProvider client={queryClient}><AuthContext.Provider value={{ user, ready }}>{!location.pathname.startsWith("/c/") && <AccountNav />}<Outlet /><Toaster /></AuthContext.Provider></QueryClientProvider>;
+  return <QueryClientProvider client={queryClient}><AuthContext.Provider value={{ user, ready }}>{!location.pathname.startsWith("/c/") && <AccountNav />}<Outlet /><Toaster />{(routeLoading || !ready) && <div className="wave-route-loader" role="status" aria-label="Carregando"><img src="/wave-logo.svg" alt="" /></div>}</AuthContext.Provider></QueryClientProvider>;
 }
