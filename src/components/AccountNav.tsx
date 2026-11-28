@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { BriefcaseBusiness, LogIn, LogOut, UserRound, QrCode } from "lucide-react";
+import { BriefcaseBusiness, LogIn, LogOut, UserRound, QrCode, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,7 +23,7 @@ export function AccountNav() {
       <span className="bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-700 bg-clip-text font-display text-2xl font-bold tracking-tight text-transparent">Wave</span>
     </Link>
     <div className="flex items-center gap-1">
-      {ready && (user ? <><Button asChild variant="ghost"><Link to="/projects"><BriefcaseBusiness /> Projetos</Link></Button><Button asChild variant="ghost"><Link to="/web-cards"><QrCode /> Web Cartões</Link></Button><Button asChild variant="ghost"><Link to="/profile"><UserRound /> Meu perfil</Link></Button><Button variant="ghost" size="icon" title="Sair da conta" aria-label="Sair da conta" onClick={signOut}><LogOut /></Button></> : <Button asChild variant="outline"><Link to="/auth"><LogIn /> Entrar / Cadastrar</Link></Button>)}
+      {ready && (user ? <><Button asChild variant="ghost"><Link to="/projects"><BriefcaseBusiness /> Projetos</Link></Button><Button asChild variant="ghost"><Link to="/web-cards"><QrCode /> Web Cartões</Link></Button><Button asChild variant="ghost"><Link to="/clients"><Users /> Clientes</Link></Button><Button asChild variant="ghost"><Link to="/profile"><UserRound /> Meu perfil</Link></Button><Button variant="ghost" size="icon" title="Sair da conta" aria-label="Sair da conta" onClick={signOut}><LogOut /></Button></> : <Button asChild variant="outline"><Link to="/auth"><LogIn /> Entrar / Cadastrar</Link></Button>)}
     </div>
   </nav>;
 }
