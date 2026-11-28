@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
-import { Plus, Store, Pencil, ExternalLink, Copy, Trash2, ImagePlus, Eye, EyeOff, QrCode, Palette, ChevronUp } from "lucide-react";
+import { Plus, Store, Pencil, ExternalLink, Copy, Trash2, ImagePlus, Eye, EyeOff, QrCode, Palette, ChevronUp, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { DEFAULT_WEB_OPTIONS, makeSlug, type WebCard, type WebCardOption } from "@/lib/web-card";
