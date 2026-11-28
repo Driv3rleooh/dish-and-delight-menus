@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import type { WebCard } from "@/lib/web-card";
+import type { WebCard, WebCardOption } from "@/lib/web-card";
 
 type PublicWebCard = Pick<WebCard, "id" | "slug" | "business_name" | "tagline" | "cover_image" | "logo_image" | "background_color" | "surface_color" | "button_color" | "text_color" | "muted_text_color" | "button_style" | "font_family"> & { options: WebCardOption[]; status: "published" };
 
