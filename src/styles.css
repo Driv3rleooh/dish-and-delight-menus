@@ -108,3 +108,29 @@
 .ocean-shore { background-color:#ddc99d; background-image:radial-gradient(ellipse at 22% 30%,rgba(255,255,255,.42) 0 1px,transparent 2px),radial-gradient(ellipse at 76% 58%,rgba(125,99,59,.17) 0 1px,transparent 2px),radial-gradient(ellipse at 44% 78%,rgba(255,255,255,.3) 0 1px,transparent 2px),repeating-linear-gradient(168deg,rgba(135,110,72,.045) 0 1px,transparent 1px 7px),linear-gradient(180deg,#f0e4c4 0%,#d9c49a 58%,#c5ad7d 100%); background-size:23px 19px,31px 27px,17px 23px,100% 100%,100% 100%; box-shadow:0 -20px 45px rgba(239,255,245,.25); }
 .ocean-shore::before { content:"";position:absolute;inset:0;opacity:.18;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");mix-blend-mode:multiply;pointer-events:none; }
 @media (prefers-reduced-motion: reduce) { .ocean-water-back,.ocean-water-front,.ocean-foam { animation:none !important; } }
+
+
+/* Wave branded route transition loader */
+.wave-route-loader {
+  position: fixed; inset: 0; z-index: 99999; display: grid; place-items: center;
+  background: transparent; pointer-events: none;
+  animation: wave-loader-overlay-in .18s ease-out both;
+}
+.wave-route-loader img {
+  width: clamp(64px, 10vw, 104px); height: auto; display: block;
+  filter: drop-shadow(0 5px 18px rgba(37,143,208,.16));
+  animation: wave-logo-arrive .52s cubic-bezier(.2,.75,.25,1) both, wave-logo-glow 1.25s ease-in-out .25s infinite alternate;
+}
+@keyframes wave-loader-overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes wave-logo-arrive {
+  0% { opacity: 0; transform: scale(.78) rotate(-9deg); }
+  65% { opacity: 1; transform: scale(1.07) rotate(2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+@keyframes wave-logo-glow {
+  from { filter: drop-shadow(0 3px 10px rgba(36,203,180,.12)); }
+  to { filter: drop-shadow(0 5px 20px rgba(73,54,232,.28)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave-route-loader, .wave-route-loader img { animation: none !important; }
+}
