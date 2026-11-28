@@ -1,8 +1,7 @@
-const DEFAULT_PUBLIC_BASE_URL = "https://dish-and-delight-menus.vercel.app";
+const PUBLIC_BASE_URL = "https://wavetech-org.vercel.app";
 
 export function getPublicBaseUrl() {
-  const configured = import.meta.env.VITE_PUBLIC_APP_URL?.trim();
-  return (configured || DEFAULT_PUBLIC_BASE_URL).replace(/\/+$/, "");
+  return PUBLIC_BASE_URL;
 }
 
 export function getWebCardUrl(slug: string) {
