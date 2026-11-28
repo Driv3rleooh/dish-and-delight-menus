@@ -6,7 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { DEFAULT_WEB_OPTIONS, makeSlug, type WebCard, type WebCardOption } from "@/lib/web-card";
 import { getWebCardUrl } from "@/lib/public-url";
 
-type ClientOption = { id: string; name: string; business_name: string };\ntype Project = { id: string; project_name: string; client_name: string; business_name: string; niche: string; phone: string | null; email: string | null; instagram: string | null; address: string | null; project_description: string | null; user_id: string };
+type ClientOption = { id: string; name: string; business_name: string };
+type Project = { id: string; project_name: string; client_name: string; business_name: string; niche: string; phone: string | null; email: string | null; instagram: string | null; address: string | null; project_description: string | null; user_id: string };
 const blankProject = { project_name: "", client_name: "", business_name: "", niche: "Restaurante", phone: "", email: "", instagram: "", address: "", project_description: "" };
 type StyleForm = { tagline: string; cover_image: string | null; logo_image: string | null; background_color: string; surface_color: string; button_color: string; text_color: string; muted_text_color: string; button_style: "rounded" | "pill" | "square"; font_family: string };
 const blankStyle: StyleForm = { tagline: "", cover_image: null as string | null, logo_image: null as string | null, background_color: "#111111", surface_color: "#1b1b1b", button_color: "#c18a3d", text_color: "#ffffff", muted_text_color: "#b7b7b7", button_style: "rounded" as const, font_family: "Inter, sans-serif" };
@@ -14,7 +15,9 @@ const blankStyle: StyleForm = { tagline: "", cover_image: null as string | null,
 export const Route = createFileRoute("/_authenticated/web-cards")({ ssr: false, head: () => ({ meta: [{ title: "Web Cartões — Wave" }] }), component: WebCardsPage });
 
 function WebCardsPage() {
-  const [projects, setProjects] = useState<Project[]>([]);\n  const [clients, setClients] = useState<ClientOption[]>([]);\n  const [clientId, setClientId] = useState("");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [clients, setClients] = useState<ClientOption[]>([]);
+  const [clientId, setClientId] = useState("");
   const [cards, setCards] = useState<WebCard[]>([]);
   const [selected, setSelected] = useState<WebCard | null>(null);
   const [projectForm, setProjectForm] = useState(blankProject);
@@ -30,12 +33,13 @@ function WebCardsPage() {
   const logoRef = useRef<HTMLInputElement>(null);
 
   const load = async () => {
-    const [{ data: p, error: pe }, { data: c, error: ce }] = await Promise.all([
+    const [{ data: p, error: pe }, { data: c, error: ce }, { data: clientRows }] = await Promise.all([
       supabase.from("menu_projects").select("id,project_name,client_name,business_name,niche,phone,email,instagram,address,project_description,user_id").order("updated_at", { ascending: false }),
       supabase.from("web_cards").select("*").order("updated_at", { ascending: false }),
+      supabase.from("clients").select("id,name,business_name").order("name"),
     ]);
     if (pe || ce) toast.error("Não foi possível carregar todos os Web Cartões.");
-    setProjects((p ?? []) as Project[]); setCards((c ?? []) as WebCard[]); const target=new URLSearchParams(window.location.search).get("card"); const found=target?(c ?? []).find((card:WebCard)=>card.id===target):null; if(found) editCard(found as WebCard); setLoading(false);
+    setProjects((p ?? []) as Project[]); setCards((c ?? []) as WebCard[]); setClients((clientRows ?? []) as ClientOption[]); const target=new URLSearchParams(window.location.search).get("card"); const found=target?(c ?? []).find((card:WebCard)=>card.id===target):null; if(found) editCard(found as WebCard); setLoading(false);
   };
   useEffect(() => { void load(); }, []);
 
