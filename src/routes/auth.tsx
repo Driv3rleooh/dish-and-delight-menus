@@ -30,7 +30,7 @@ function Auth() {
   const [confirmation, setConfirmation] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => { if (user) void navigate({ to: "/profile", replace: true }); }, [user, navigate]);
+  useEffect(() => { if (user) void navigate({ to: "/", replace: true }); }, [user, navigate]);
   const submit = async (event: FormEvent) => {
     event.preventDefault(); setError("");
     if (mode === "signup") {
@@ -40,10 +40,10 @@ function Auth() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { data, error: failure } = await supabase.auth.signUp({ email: email.trim(), password, options: { data: { name: name.trim() }, emailRedirectTo: `${window.location.origin}/profile` } });
+        const { data, error: failure } = await supabase.auth.signUp({ email: email.trim(), password, options: { data: { name: name.trim() }, emailRedirectTo: `${window.location.origin}/` } });
         if (failure) { setError(failure.code === "email_address_invalid" ? "Informe um e-mail válido." : failure.code === "user_already_exists" ? "Já existe uma conta com esse e-mail. Entre na sua conta." : "Não foi possível cadastrar. Confira os dados e tente novamente."); return; }
         if (!data.session) setConfirmation(true);
-        else await navigate({ to: "/profile", replace: true });
+        else await navigate({ to: "/", replace: true });
       } else {
         const { error: failure } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         if (failure) { setError(failure.code === "email_not_confirmed" ? "Confirme seu e-mail antes de entrar." : failure.code === "invalid_credentials" ? "E-mail ou senha incorretos." : "Não foi possível entrar. Tente novamente."); return; }
