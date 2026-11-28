@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-  Outlet, Link, createRootRouteWithContext, useRouter, HeadContent, Scripts,
+  Outlet, Link, createRootRouteWithContext, useRouter, useLocation, HeadContent, Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
@@ -44,7 +44,7 @@ function RootShell({ children }: { children: ReactNode }) {
   return <html lang="pt-BR"><head><HeadContent /></head><body>{children}<Scripts /></body></html>;
 }
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext(); const router = useRouter();
+  const { queryClient } = Route.useRouteContext(); const router = useRouter(); const location = useLocation();
   const [user, setUser] = useState<User | null>(null); const [ready, setReady] = useState(false);
   useEffect(() => {
     let active = true;
@@ -56,5 +56,5 @@ function RootComponent() {
     });
     refreshUser(); return () => { active = false; subscription.unsubscribe(); };
   }, [router, queryClient]);
-  return <QueryClientProvider client={queryClient}><AuthContext.Provider value={{ user, ready }}><AccountNav /><Outlet /><Toaster /></AuthContext.Provider></QueryClientProvider>;
+  return <QueryClientProvider client={queryClient}><AuthContext.Provider value={{ user, ready }}>{!location.pathname.startsWith("/c/") && <AccountNav />}<Outlet /><Toaster /></AuthContext.Provider></QueryClientProvider>;
 }
