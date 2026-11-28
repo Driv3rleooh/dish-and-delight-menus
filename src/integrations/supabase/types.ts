@@ -14,8 +14,15 @@ export type Database = {
   }
   public: {
     Tables: {
+      clients: {
+        Row: { id:string; user_id:string; name:string; phone:string|null; business_name:string; email:string|null; created_at:string; updated_at:string };
+        Insert: { id?:string; user_id:string; name:string; phone?:string|null; business_name:string; email?:string|null; created_at?:string; updated_at?:string };
+        Update: { id?:string; user_id?:string; name?:string; phone?:string|null; business_name?:string; email?:string|null; created_at?:string; updated_at?:string };
+        Relationships: [];
+      }
       menu_projects: {
         Row: {
+          client_id: string | null
           address: string | null
           business_name: string
           client_name: string
@@ -33,6 +40,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          client_id?: string | null
           address?: string | null
           business_name: string
           client_name: string
