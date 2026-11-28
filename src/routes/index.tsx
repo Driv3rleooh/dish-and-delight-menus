@@ -1,6 +1,6 @@
 import { createFileRoute, redirect, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, BriefcaseBusiness, ClipboardList, QrCode, UserRound, Sparkles, Plus, Layers3, Activity } from "lucide-react";
+import { ArrowUpRight, BriefcaseBusiness, ClipboardList, QrCode, UserRound, Sparkles, Plus, Layers3, Activity, Home, MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 type DashboardStats = { projects: number; menus: number; cards: number; published: number; drafts: number };
@@ -50,7 +50,35 @@ function DashboardPage() {
 
   return (
     <main className="min-h-[calc(100vh-3.5rem)] bg-[#f6f9fd] px-4 py-7 text-slate-800 sm:px-7 sm:py-10 lg:px-10">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto flex max-w-[1500px] flex-col gap-6 lg:flex-row lg:items-start">
+        <aside aria-label="Menu lateral da Wave" className="w-full shrink-0 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_28px_-24px_rgba(15,23,42,.35)] lg:sticky lg:top-20 lg:w-60">
+          <div className="mb-4 flex items-center gap-2 px-2">
+            <img src="/wave-logo.svg" alt="" className="size-8 object-contain" />
+            <div><p className="text-sm font-bold tracking-wide text-slate-900">WAVE</p><p className="text-[10px] font-semibold uppercase tracking-[.16em] text-slate-400">Acesso rápido</p></div>
+          </div>
+          <nav className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1" aria-label="Funcionalidades">
+            <Link to="/" className="flex items-center gap-3 rounded-xl bg-cyan-50 px-3 py-3 text-sm font-bold text-cyan-800 ring-1 ring-cyan-100 transition hover:bg-cyan-100">
+              <Home className="size-4 shrink-0" /> Início
+            </Link>
+            <Link to="/projects" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-cyan-700">
+              <BriefcaseBusiness className="size-4 shrink-0" /> Projetos
+            </Link>
+            <Link to="/web-cards" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-violet-700">
+              <QrCode className="size-4 shrink-0" /> Web Cartões
+            </Link>
+            <Link to="/profile" className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-blue-700">
+              <UserRound className="size-4 shrink-0" /> Meu perfil
+            </Link>
+          </nav>
+          <div className="mt-4 border-t border-slate-100 pt-4">
+            <a href="https://wa.me/5541995821280" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl bg-[#eafaf1] px-3 py-3 text-sm font-bold text-[#16834b] transition hover:bg-[#d8f5e5] hover:shadow-sm">
+              <MessageCircle className="size-5 shrink-0" /> Suporte no WhatsApp
+              <ArrowUpRight className="ml-auto size-4 shrink-0" />
+            </a>
+            <p className="mt-2 px-1 text-[11px] leading-4 text-slate-400">Fale com a equipe Wave pelo WhatsApp.</p>
+          </div>
+        </aside>
+        <div className="min-w-0 flex-1">
         <section className="relative isolate overflow-hidden rounded-[2rem] bg-[#101d35] px-6 py-8 text-white shadow-[0_24px_70px_-35px_rgba(30,64,175,.55)] sm:px-10 sm:py-11">
           <div className="absolute -right-16 -top-32 -z-10 size-80 rounded-full bg-cyan-400/25 blur-3xl" />
           <div className="absolute -bottom-40 right-1/4 -z-10 size-96 rounded-full bg-violet-500/25 blur-3xl" />
@@ -119,6 +147,7 @@ function DashboardPage() {
           <Link to="/profile" className="inline-flex items-center gap-2 self-start rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 sm:self-auto">Meu perfil <ArrowUpRight className="size-4" /></Link>
         </section>
         <footer className="mt-8 flex items-center justify-between border-t border-slate-200/80 pt-5 text-xs text-slate-400"><span>Wave · Seu espaço de criação digital</span><span className="inline-flex items-center gap-1.5"><Layers3 className="size-3.5" /> Tudo conectado em um só lugar</span></footer>
+        </div>
       </div>
     </main>
   );
