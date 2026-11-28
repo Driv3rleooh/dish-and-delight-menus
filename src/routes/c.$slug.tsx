@@ -9,9 +9,10 @@ function PublicWebCard() {
   const { slug } = Route.useParams();
   const [card,setCard] = useState<WebCard|null>(null);
   const [loading,setLoading] = useState(true);
-  useEffect(()=>{let active=true;void supabase.from("web_cards").select("*").eq("slug",slug).eq("status","published").maybeSingle().then(({data})=>{if(active){setCard(data as WebCard|null);setLoading(false);}});return()=>{active=false;};},[slug]);
+  const [loadError,setLoadError] = useState(false);
+  useEffect(()=>{let active=true;void supabase.from("web_cards").select("id,slug,business_name,tagline,cover_image,logo_image,background_color,surface_color,button_color,text_color,muted_text_color,button_style,font_family,options,status").eq("slug",slug).eq("status","published").maybeSingle().then(({data,error})=>{if(active){setCard(data as WebCard|null);setLoadError(Boolean(error));setLoading(false);}}).catch(()=>{if(active){setLoadError(true);setLoading(false);}});return()=>{active=false;};},[slug]);
   if(loading) return <main className="grid min-h-screen place-items-center bg-neutral-950 text-white">Carregando cartão…</main>;
-  if(!card) return <main className="grid min-h-screen place-items-center bg-neutral-950 px-6 text-center text-white"><div><h1 className="text-2xl font-bold">Cartão não encontrado</h1><p className="mt-2 text-white/60">Este estabelecimento não está disponível no momento.</p></div></main>;
+  if(!card) return <main className="grid min-h-screen place-items-center bg-neutral-950 px-6 text-center text-white"><div><h1 className="text-2xl font-bold">Cartão não encontrado</h1><p className="mt-2 text-white/60">{loadError?"Não foi possível carregar este cartão. Tente novamente.":"Este estabelecimento não está disponível no momento."}</p></div></main>;
   const radius=card.button_style==="pill"?"999px":card.button_style==="square"?"8px":"16px";
   const safeLink = (value: string) => { try { const url = new URL(value); return ["https:","http:","mailto:","tel:"].includes(url.protocol) ? url.href : undefined; } catch { return undefined; } };
   return <main className="min-h-screen px-4 py-3" style={{background:card.background_color,color:card.text_color,fontFamily:card.font_family}}>
