@@ -7,9 +7,10 @@ type DashboardStats = { projects: number; menus: number; cards: number; publishe
 type RecentCreation = { id: string; name: string; kind: "Projeto" | "Web Cartão"; status: string; updated_at: string };
 
 function DashboardPage() {
-  const [stats, setStats] = useState<DashboardStats>({ projects: 0, cards: 0 });
+  const [stats, setStats] = useState<DashboardStats>({ projects: 0, menus: 0, cards: 0, published: 0, drafts: 0 });
   const [loading, setLoading] = useState(true);
-  const [firstName, setFirstName] = useState("bem-vindo(a)");
+  const [displayName, setDisplayName] = useState("bem-vindo(a)");
+  const [recent, setRecent] = useState<RecentCreation[]>([]);
 
   useEffect(() => {
     let active = true;
